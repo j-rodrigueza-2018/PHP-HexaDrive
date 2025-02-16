@@ -1,0 +1,29 @@
+{
+    "name": "j-rodrigueza-2018/php-hexadrive",
+    "description": "PHP library for managing files in Google Drive using Hexagonal Architecture.",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/j-rodrigueza-2018/PHP-HexaDrive",
+    "autoload": {
+        "psr-4": {
+            "JRA\\HexaDrive\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JRA\\HexaDrive\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=8.0",
+        "google/apiclient": "^2.0"
+    },
+    "scripts": {
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
+    },
+    "extra": {
+        "google/apiclient-services": [
+            "Drive"
+        ]
+    }
+}
