@@ -15,7 +15,7 @@ class GoogleDriveAdapter implements FileManagerInterface
 {
     private Drive $drive_service;
     private ?string $folder_id;
-    private const CREDENTIALS_PATH = __DIR__ . "/../../google-credentials.json";
+    private const string CREDENTIALS_PATH = __DIR__ . "/../../google-credentials.json";
 
     /**
      * @throws FileManagerException
@@ -82,9 +82,16 @@ class GoogleDriveAdapter implements FileManagerInterface
         }
     }
 
+    /**
+     * @throws FileManagerException
+     */
     public function deleteFile(string $file_id): void
     {
-        // TODO: Implement deleteFile() method.
+        try {
+            $this->drive_service->files->delete($file_id);
+        } catch (Exception $exception) {
+            throw new FileManagerException("Unable to delete file: " . $exception->getMessage(), 0, $exception);
+        }
     }
 
     public function renameFile(string $file_id, string $new_name): void
