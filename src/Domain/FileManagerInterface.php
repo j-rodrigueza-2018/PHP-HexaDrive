@@ -50,8 +50,7 @@ interface FileManagerInterface
     /**
      * Lists files in a specific folder or root.
      *
-     * @param string|null $folder_id The folder identifier (null for root).
      * @return array An array of file metadata (e.g., id, name, mimeType).
      */
-    public function listFiles(?string $folder_id = null): array;
+    public function listFiles(): array;
 }

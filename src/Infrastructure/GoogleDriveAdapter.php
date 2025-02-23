@@ -114,10 +114,36 @@ class GoogleDriveAdapter implements FileManagerInterface
         // TODO: Implement moveFile() method.
     }
 
-    public function listFiles(?string $folder_id = null): array
+    /**
+     * @throws FileManagerException
+     */
+    public function listFiles(): array
     {
-        return [];
-        // TODO: Implement listFiles() method.
+        try {
+            if (empty($this->folder_id)) {
+                throw new FileManagerException("No folder ID specified for listing files.");
+            }
+
+            $files = [];
+
+            $response = $this->drive_service->files->listFiles([
+                'q' => "'$this->folder_id' in parents",
+                'fields' => 'files(id, name, mimeType, modifiedTime)'
+            ]);
+
+            foreach ($response->getFiles() as $file) {
+                $files[] = [
+                    'id' => $file->getId(),
+                    'name' => $file->getName(),
+                    'mimeType' => $file->getMimeType(),
+                    'modifiedTime' => $file->getModifiedTime()
+                ];
+            }
+
+            return $files;
+        } catch (Exception $exception) {
+            throw new FileManagerException("Unable to list files." . $exception->getMessage(), 0, $exception);
+        }
     }
 
     /**
