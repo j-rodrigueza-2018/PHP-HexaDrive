@@ -65,4 +65,26 @@ class GoogleDriveAdapterTest extends TestCase
         $this->expectException(FileManagerException::class);
         $this->adapter->deleteFile($file_id);
     }
+
+    /**
+     * @throws FileManagerException
+     */
+    public function testRenameFile(): void
+    {
+        $file_path = 'test-rename.txt';
+        $file_content = 'This file will be renamed.';
+
+        // Subimos el archivo
+        $file_id = $this->adapter->uploadFile($file_path, $file_content);
+        $this->assertNotEmpty($file_id, "File upload failed: No file ID returned.");
+
+        // Renombramos el archivo
+        $new_name = "renamed-file.txt";
+        $this->adapter->renameFile($file_id, $new_name);
+
+        $updated_filename = $this->adapter->getFilename($file_id);
+        $this->assertEquals($new_name, $updated_filename, "File rename failed!");
+
+        echo "✅ File renamed successfully!\n";
+    }
 }

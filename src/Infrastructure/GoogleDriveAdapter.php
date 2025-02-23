@@ -94,9 +94,19 @@ class GoogleDriveAdapter implements FileManagerInterface
         }
     }
 
+    /**
+     * @throws FileManagerException
+     */
     public function renameFile(string $file_id, string $new_name): void
     {
-        // TODO: Implement renameFile() method.
+        try {
+            $file_metadata = new Drive\DriveFile([
+                'name' => basename($new_name),
+            ]);
+            $this->drive_service->files->update($file_id, $file_metadata);
+        } catch (Exception $exception) {
+            throw new FileManagerException("Unable to rename file: " . $exception->getMessage(), 0, $exception);
+        }
     }
 
     public function moveFile(string $file_id, string $destination_folder_id): void
@@ -108,5 +118,20 @@ class GoogleDriveAdapter implements FileManagerInterface
     {
         return [];
         // TODO: Implement listFiles() method.
+    }
+
+    /**
+     * Get the current name of a Google Drive's file
+     *
+     * @throws FileManagerException
+     */
+    public function getFilename(string $file_id): string
+    {
+        try {
+            $file = $this->drive_service->files->get($file_id, ['fields' => 'name']);
+            return $file->getName();
+        } catch (Exception $exception) {
+            throw new FileManagerException("Unable to get filename: " . $exception->getMessage(), 0, $exception);
+        }
     }
 }
