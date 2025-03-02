@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace JRA\HexaDrive\Infrastructure;
+namespace JRA\HexaDrive\Infrastructure\GoogleDrive;
 
 use Exception;
 use Google\Client;
@@ -11,33 +11,15 @@ use JRA\HexaDrive\Domain\Exception\FileManagerException;
 use JRA\HexaDrive\Domain\FileManagerInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class GoogleDriveAdapter implements FileManagerInterface
+class GoogleDriveFileAdapter implements FileManagerInterface
 {
     private Drive $drive_service;
     private ?string $folder_id;
-    private const string CREDENTIALS_PATH = __DIR__ . "/../../google-credentials.json";
 
-    /**
-     * @throws FileManagerException
-     */
-    public function __construct(string $credentials_path = self::CREDENTIALS_PATH)
+    public function __construct(Drive $drive_service, ?string $folder_id = null)
     {
-        if (!file_exists($credentials_path)) {
-            throw new FileManagerException("Google credentials file not found: $credentials_path");
-        }
-
-        try {
-            $client = new Client();
-            $client->setAuthConfig($credentials_path);
-            $client->addScope(Drive::DRIVE_FILE);
-
-            $this->drive_service = new Drive($client);
-
-            $credentials = json_decode(file_get_contents($credentials_path), true);
-            $this->folder_id = $credentials['folder_id'] ?? null;
-        } catch (Exception $exception) {
-            throw new FileManagerException("Google credentials could not be loaded: " . $exception->getMessage(), 0, $exception);
-        }
+        $this->drive_service = $drive_service;
+        $this->folder_id = $folder_id;
     }
 
     /**
