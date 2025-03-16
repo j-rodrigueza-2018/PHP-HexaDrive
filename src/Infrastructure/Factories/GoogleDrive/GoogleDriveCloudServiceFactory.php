@@ -7,16 +7,16 @@ namespace JRA\HexaDrive\Infrastructure\Factories\GoogleDrive;
 use Exception;
 use Google\Client;
 use Google\Service\Drive;
-use JRA\HexaDrive\Domain\ClientFactoryInterface;
+use JRA\HexaDrive\Domain\CloudServiceFactoryInterface;
 
-class GoogleDriveClientFactory implements ClientFactoryInterface
+class GoogleDriveCloudServiceFactory implements CloudServiceFactoryInterface
 {
     private const string CREDENTIALS_PATH = __DIR__ . "/../../../../google-credentials.json";
 
     /**
      * @throws Exception
      */
-    public static function createClient(): Drive
+    public function create(): Drive
     {
         if (!file_exists(self::CREDENTIALS_PATH)) {
             throw new Exception("Google credentials file does not exist: " . self::CREDENTIALS_PATH);
@@ -29,7 +29,7 @@ class GoogleDriveClientFactory implements ClientFactoryInterface
 
             return new Drive($client);
         } catch (Exception $exception) {
-            throw new Exception("Failed to initialize Google Drive client: {$exception->getMessage()}", 0, $exception);
+            throw new Exception("Failed to initialize Google Drive service: {$exception->getMessage()}", 0, $exception);
         }
     }
 }

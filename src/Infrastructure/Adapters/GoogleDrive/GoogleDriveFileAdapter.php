@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace JRA\HexaDrive\Infrastructure\GoogleDrive;
+namespace JRA\HexaDrive\Infrastructure\Adapters\GoogleDrive;
 
 use Exception;
-use Google\Client;
 use Google\Service\Drive;
 use JRA\HexaDrive\Domain\Exception\FileManagerException;
 use JRA\HexaDrive\Domain\FileManagerInterface;

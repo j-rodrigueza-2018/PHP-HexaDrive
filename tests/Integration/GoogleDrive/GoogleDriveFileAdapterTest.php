@@ -4,9 +4,8 @@ namespace JRA\HexaDrive\Tests\Integration;
 
 use Exception;
 use JRA\HexaDrive\Domain\Exception\FileManagerException;
-use JRA\HexaDrive\Infrastructure\Factories\GoogleDrive\GoogleDriveClientFactory;
-use JRA\HexaDrive\Infrastructure\GoogleDrive\GoogleDriveFileAdapter;
-use JRA\HexaDrive\Infrastructure\GoogleDriveAdapter;
+use JRA\HexaDrive\Infrastructure\Factories\GoogleDrive\GoogleDriveCloudServiceFactory;
+use JRA\HexaDrive\Infrastructure\Adapters\GoogleDrive\GoogleDriveFileAdapter;
 use PHPUnit\Framework\TestCase;
 
 class GoogleDriveFileAdapterTest extends TestCase
@@ -18,7 +17,7 @@ class GoogleDriveFileAdapterTest extends TestCase
      */
     public function setUp(): void
     {
-        $this->adapter = new GoogleDriveFileAdapter(GoogleDriveClientFactory::createClient());
+        $this->adapter = new GoogleDriveFileAdapter((new GoogleDriveCloudServiceFactory())->create());
     }
 
     /**
