@@ -9,14 +9,17 @@ use Google\Service\Drive;
 use Google\Service\Drive\DriveFile;
 use JRA\HexaDrive\Domain\Exception\FolderManagerException;
 use JRA\HexaDrive\Domain\FolderManagerInterface;
+use JRA\HexaDrive\Infrastructure\Factories\GoogleDrive\GoogleDriveCloudServiceFactory;
 
 class GoogleDriveFolderAdapter implements FolderManagerInterface
 {
     private Drive $drive_service;
+    private string $root_folder_id;
 
-    public function __construct(Drive $drive_service)
+    public function __construct(Drive $drive_service, ?string $root_folder_id = null)
     {
         $this->drive_service = $drive_service;
+        $this->root_folder_id = $root_folder_id ?? GoogleDriveCloudServiceFactory::getRootFolderId();
     }
 
     /**
@@ -25,10 +28,13 @@ class GoogleDriveFolderAdapter implements FolderManagerInterface
     public function createFolder(string $name, ?string $parent_folder_id = null): string
     {
         try {
+            $parent_folder_id = $parent_folder_id ?? $this->root_folder_id;
+            $parents = $parent_folder_id ? [$parent_folder_id] : [];
+
             $folder_metadata = new DriveFile([
                 'name' => $name,
                 'mimeType' => 'application/vnd.google-apps.folder',
-                'parents' => $parent_folder_id ? [$parent_folder_id] : [],
+                'parents' => $parents,
             ]);
 
             $folder = $this->drive_service->files->create($folder_metadata, ['fields' => 'id']);

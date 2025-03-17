@@ -8,6 +8,7 @@ use Exception;
 use Google\Service\Drive;
 use JRA\HexaDrive\Domain\Exception\FileManagerException;
 use JRA\HexaDrive\Domain\FileManagerInterface;
+use JRA\HexaDrive\Infrastructure\Factories\GoogleDrive\GoogleDriveCloudServiceFactory;
 use Psr\Http\Message\ResponseInterface;
 
 class GoogleDriveFileAdapter implements FileManagerInterface
@@ -18,7 +19,7 @@ class GoogleDriveFileAdapter implements FileManagerInterface
     public function __construct(Drive $drive_service, ?string $folder_id = null)
     {
         $this->drive_service = $drive_service;
-        $this->folder_id = $folder_id;
+        $this->folder_id = $folder_id ?? GoogleDriveCloudServiceFactory::getRootFolderId();
     }
 
     /**

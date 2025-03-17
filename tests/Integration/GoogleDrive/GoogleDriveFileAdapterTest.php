@@ -17,6 +17,7 @@ class GoogleDriveFileAdapterTest extends TestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->adapter = new GoogleDriveFileAdapter((new GoogleDriveCloudServiceFactory())->create());
     }
 
