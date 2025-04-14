@@ -11,7 +11,7 @@ use JRA\HexaDrive\Domain\CloudServiceFactoryInterface;
 
 class GoogleDriveCloudServiceFactory implements CloudServiceFactoryInterface
 {
-    private const string CREDENTIALS_PATH = __DIR__ . "/../../../../google-credentials.json";
+    private const CREDENTIALS_PATH = __DIR__ . "/../../../../google-credentials.json";
     private static ?string $root_folder_id = null;
 
     /**
