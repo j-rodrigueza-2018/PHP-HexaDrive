@@ -1,6 +1,6 @@
 {
     "name": "j-rodrigueza-2018/php-hexadrive",
-    "description": "PHP library for managing files in Google Drive using Hexagonal Architecture.",
+    "description": "PHP library for managing files and folders in Google Drive using Hexagonal Architecture.",
     "type": "library",
     "license": "MIT",
     "homepage": "https://github.com/j-rodrigueza-2018/PHP-HexaDrive",
