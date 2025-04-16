@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.0.3] - 2025-04-16
+
+### Fixed
+
+- Credentials path's issue solved in `GoogleDriveCloudServiceFactory` class.
+
+---
+
 ## [1.0.2] - 2025-04-16
 
 ### Changed
