@@ -49,7 +49,7 @@ use JRA\HexaDrive\Infrastructure\Factories\GoogleDrive\GoogleDriveCloudServiceFa
 use JRA\HexaDrive\Infrastructure\Adapters\GoogleDrive\GoogleDriveFileAdapter;
 
 // Initialize service
-$service = (new GoogleDriveCloudServiceFactory())->create();
+$service = (new GoogleDriveCloudServiceFactory('/path/to/google-credentials.json'))->create();
 $file_manager = new GoogleDriveFileAdapter($service);
 
 // Upload
@@ -59,7 +59,7 @@ $file_id = $file_manager->uploadFile('example.txt', 'Hello world!');
 $content = $file_manager->downloadFile($file_id);
 
 // Delete
-$fileManager->deleteFile($file_id);
+$file_manager->deleteFile($file_id);
 ```
 
 ---
@@ -69,7 +69,7 @@ $fileManager->deleteFile($file_id);
 ```php
 use JRA\HexaDrive\Infrastructure\Adapters\GoogleDrive\GoogleDriveFolderAdapter;
 
-$service = (new GoogleDriveCloudServiceFactory())->create();
+$service = (new GoogleDriveCloudServiceFactory('/path/to/google-credentials.json'))->create();
 $folder_manager = new GoogleDriveFolderAdapter($service);
 
 // Create
