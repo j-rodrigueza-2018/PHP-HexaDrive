@@ -19,7 +19,7 @@ class GoogleDriveCloudServiceFactory implements CloudServiceFactoryInterface
      */
     public function create(string $credentials_path = ''): Drive
     {
-        if (empty($credentials)) {
+        if (empty($credentials_path)) {
             $credentials_path = self::CREDENTIALS_PATH;
         }
 
